@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', "HomeController@index");
+
+Route::prefix('admin')->group(function () {
+	Route::get('/', "Admin\LoginController@index")->name('loginadmin');
+	Route::get('home', "Admin\HomeController@index")->name('dashboard');
+	Route::get('logout',"Admin\LoginController@out")->name('logoutadmin');
+	Route::post('login', "Admin\LoginController@ceklogin");
+	Route::resource('article', 'Admin\ArticleController')->except(['show']);
+	Route::resource('category', 'Admin\CategoryController')->except(['show']);
+	Route::resource('user', 'Admin\UserController')->except(['show']);
 });
